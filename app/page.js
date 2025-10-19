@@ -11,7 +11,7 @@ import logo from "./static_data/images/logo.png"
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F2F8F2]">
-      <Navbar />
+      <Navbar redirectAuth={false} />
       <main className="flex-grow">
 
         <section

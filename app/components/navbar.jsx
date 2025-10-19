@@ -9,7 +9,7 @@ import { supabase } from "@/lib/database";
 import logo from "../static_data/images/logo.png";
 import Image from "next/image";
 
-export default function Navbar() {
+export default function Navbar({ redirectAuth = true }) {
     const [scrolled, setScrolled] = useState(false);
     const [user, setUser] = useState(null);
     const pathname = usePathname();
@@ -18,8 +18,7 @@ export default function Navbar() {
         async function run() {
             const user = await getCurrentUser();
 
-            console.log(pathname);
-            if (!user && pathname !== "/auth" && pathname !== "/") {
+            if (redirectAuth && !user && pathname != "/" && pathname !== "/auth") {
                 redirect("/auth");
             }
 
