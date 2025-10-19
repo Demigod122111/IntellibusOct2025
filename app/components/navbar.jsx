@@ -18,8 +18,10 @@ export default function Navbar() {
         async function run() {
             const user = await getCurrentUser();
 
-            if (user == null && pathname !== "/auth" && pathname !== "/" && pathname !== "")
+            if (!user && pathname !== "/auth" && pathname !== "/") {
                 redirect("/auth");
+            }
+
 
             setUser(user);
         }
