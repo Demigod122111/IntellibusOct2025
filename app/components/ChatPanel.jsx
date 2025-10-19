@@ -13,6 +13,26 @@ export default function ChatPanel({ conversationId, currentUser }) {
     const [showMembers, setShowMembers] = useState(false);
     const scrollContainerRef = useRef(null);
 
+    const fetchUsers = async (msgs) => {
+        const senderIds = Array.from(new Set(msgs.map((m) => m.sender_id)));
+        const idsToFetch = senderIds.filter((id) => !usersCache[id]);
+        if (idsToFetch.length === 0) return;
+
+        const { data: users, error } = await supabase
+            .from("users")
+            .select("*")
+            .in("user_id", idsToFetch);
+
+        if (error) console.error(error);
+        else {
+            const newCache = { ...usersCache };
+            users.forEach((u) => {
+                newCache[u.user_id] = u;
+            });
+            setUsersCache(newCache);
+        }
+    };
+
     useEffect(() => {
         if (!conversationId) return;
 
@@ -26,26 +46,6 @@ export default function ChatPanel({ conversationId, currentUser }) {
             else {
                 setMessages(data);
                 fetchUsers(data);
-            }
-        };
-
-        const fetchUsers = async (msgs) => {
-            const senderIds = Array.from(new Set(msgs.map((m) => m.sender_id)));
-            const idsToFetch = senderIds.filter((id) => !usersCache[id]);
-            if (idsToFetch.length === 0) return;
-
-            const { data: users, error } = await supabase
-                .from("users")
-                .select("*")
-                .in("user_id", idsToFetch);
-
-            if (error) console.error(error);
-            else {
-                const newCache = { ...usersCache };
-                users.forEach((u) => {
-                    newCache[u.user_id] = u;
-                });
-                setUsersCache(newCache);
             }
         };
 
