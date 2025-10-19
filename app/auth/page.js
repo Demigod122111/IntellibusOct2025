@@ -5,6 +5,7 @@ import Footer from "../components/footer";
 import { signUp, signIn, supabase } from "@/lib/database";
 import { isStrongPassword } from "@/lib/helpers";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function AuthPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -38,29 +39,30 @@ export default function AuthPage() {
                 setError(error.message);
             }
             else {
-                setMessage("Logged in successfully!\nRedirecting...");
+                toast.success("Logged in successfully!\nRedirecting...");
                 redirect("/catalog");
             }
         } else {
             const { data, error } = await signUp(email, password, fullName);
 
             if (error) {
-                setError(error.message);
+                toast.error(error.message);
             }
 
             // Insert into users table after signup
             const { error: syncError } = await supabase.from("users").insert([
                 {
                     user_id: data.user.id,
+                    display_name: fullName,
                     email: email,
                 },
             ]);
 
             if (syncError) {
                 console.error("Error inserting user record:", syncError);
-                setError("Registration Failed!\nPlease try again or contact support.");
+                toast.error("Registration Failed!\nPlease try again or contact support.");
             } else {
-                setMessage("Check your email to confirm registration!");
+                toast.success("Check your email to confirm registration!");
                 setIsLogin(true);
             }
         }

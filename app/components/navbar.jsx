@@ -85,10 +85,10 @@ export default function Navbar() {
 
                 {/* Nav Links */}
                 <div className="hidden md:flex space-x-8 font-medium">
-                    <Link href="#features" className="hover:text-green-600 transition-colors">
+                    <Link href="/#features" className="hover:text-green-600 transition-colors">
                         Features
                     </Link>
-                    <Link href="#pricing" className="hover:text-green-600 transition-colors">
+                    <Link href="/#pricing" className="hover:text-green-600 transition-colors">
                         Pricing
                     </Link>
                     <Link href="#contact" className="hover:text-green-600 transition-colors">
