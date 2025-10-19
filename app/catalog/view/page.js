@@ -330,8 +330,8 @@ function ViewClient() {
 
                             <p className="text-gray-700 font-medium">
                                 {listing.type === "farmer"
-                                    ? `Price: JMD ${listing.price}`
-                                    : `Offer: JMD ${listing.price}`}
+                                    ? `Price: JMD ${listing.price} (${listing.unit})`
+                                    : `Offer: JMD ${listing.price} (${listing.unit})`}
                             </p>
 
                             {listing.description && (

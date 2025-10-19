@@ -66,6 +66,7 @@ export function FarmerForm() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    const [unit, setUnit] = useState("per kg");
     const [iconBase64, setIconBase64] = useState("");
     const [imagesBase64, setImagesBase64] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -88,6 +89,7 @@ export function FarmerForm() {
                 title,
                 description,
                 price: parseFloat(price),
+                unit,
                 iconBase64,
                 imageBase64ArrayJson: JSON.stringify(imagesBase64),
             });
@@ -96,6 +98,7 @@ export function FarmerForm() {
             setTitle("");
             setDescription("");
             setPrice("");
+            setUnit("per kg");
             setIconBase64("");
             setImagesBase64([]);
             setImages([]);
@@ -140,16 +143,56 @@ export function FarmerForm() {
             </div>
 
             <div>
-                <label className="block font-semibold text-gray-800 mb-2">Preferred Price</label>
-                <input
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    type="number"
-                    placeholder="e.g., 250 (per kg or bundle)"
-                    className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
-                    required
-                />
+                <label className="block font-semibold text-gray-800 mb-2">
+                    Preferred Price
+                </label>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                    {/* Price Input */}
+                    <input
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        type="number"
+                        placeholder="e.g., 250"
+                        className="w-full sm:w-3/4 border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                        required
+                    />
+
+                    {/* Unit Selector */}
+                    <div className="relative w-full sm:w-1/4">
+                        <select
+                            value={unit}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (val === "custom") {
+                                    const customUnit = prompt("Enter your custom unit (e.g., per sack, per crate)");
+                                    if (customUnit) setUnit(customUnit);
+                                } else {
+                                    setUnit(val);
+                                }
+                            }}
+                            required
+                            className="w-full border rounded-lg px-4 py-2 appearance-none focus:ring-2 focus:ring-green-600 focus:outline-none"
+                        >
+                            <option value="">Select unit</option>
+                            <option value="per kg">per kg</option>
+                            <option value="per lb">per lb</option>
+                            <option value="per dozen">per dozen</option>
+                            <option value="per item">per item</option>
+                            <option value="per bundle">per bundle</option>
+                            <option value="custom">➕ Custom...</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Optional: show selected unit */}
+                {unit && (
+                    <p className="text-sm text-gray-600 mt-2">
+                        Selected unit: <span className="font-medium text-green-700">{unit}</span>
+                    </p>
+                )}
             </div>
+
 
             <ListingIconUpload onChange={setIconBase64} preview={preview} setPreview={setPreview} />
             <ImageUploadBox onChange={setImagesBase64} images={images} setImages={setImages} />
@@ -172,6 +215,7 @@ export function ConsumerForm() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    const [unit, setUnit] = useState("per kg");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -186,6 +230,7 @@ export function ConsumerForm() {
                 title,
                 description,
                 price: parseFloat(price),
+                unit,
                 iconBase64: null,
                 imagesBase64: [],
             });
@@ -193,6 +238,7 @@ export function ConsumerForm() {
             setTitle("");
             setDescription("");
             setPrice("");
+            setUnit("per kg");
         } catch (error) {
             console.error("Error creating request:", error);
             setMessage("Failed to submit request.");
@@ -233,14 +279,51 @@ export function ConsumerForm() {
 
             <div>
                 <label className="block font-semibold text-gray-800 mb-2">Budget / Offer</label>
-                <input
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    type="number"
-                    placeholder="e.g., 3000 (JMD total)"
-                    className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
-                    required
-                />
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                    {/* Price Input */}
+                    <input
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        type="number"
+                        placeholder="e.g., 3000 (JMD total)"
+                        className="w-full sm:w-3/4 border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                        required
+                    />
+
+                    {/* Unit Selector */}
+                    <div className="relative w-full sm:w-1/4">
+                        <select
+                            value={unit}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (val === "custom") {
+                                    const customUnit = prompt("Enter your custom unit (e.g., per sack, per crate)");
+                                    if (customUnit) setUnit(customUnit);
+                                } else {
+                                    setUnit(val);
+                                }
+                            }}
+                            required
+                            className="w-full border rounded-lg px-4 py-2 appearance-none focus:ring-2 focus:ring-green-600 focus:outline-none"
+                        >
+                            <option value="">Select unit</option>
+                            <option value="per kg">per kg</option>
+                            <option value="per lb">per lb</option>
+                            <option value="per dozen">per dozen</option>
+                            <option value="per item">per item</option>
+                            <option value="per bundle">per bundle</option>
+                            <option value="custom">➕ Custom...</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Optional: show selected unit */}
+                {unit && (
+                    <p className="text-sm text-gray-600 mt-2">
+                        Selected unit: <span className="font-medium text-green-700">{unit}</span>
+                    </p>
+                )}
             </div>
 
             <button

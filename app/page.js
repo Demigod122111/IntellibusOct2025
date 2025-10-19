@@ -1,3 +1,4 @@
+"use client";
 import { Sprout, DollarSign, MessageCircle, BarChart3, ShieldCheck, Globe2 } from "lucide-react";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";

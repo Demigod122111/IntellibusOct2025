@@ -182,8 +182,8 @@ function CatalogClient() {
                                 {/* Price / Budget */}
                                 <p className="text-gray-700 font-medium">
                                     {listing.type === "farmer"
-                                        ? `JMD ${listing.price}`
-                                        : `Offer: JMD ${listing.price}`}
+                                        ? `JMD ${listing.price} (${listing.unit})`
+                                        : `Offer: JMD ${listing.price} (${listing.unit})`}
                                 </p>
 
                                 {/* Badge */}
