@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AgriDex 🌾
 
-## Getting Started
+**Bridging Jamaica’s Farmers and Consumers**  
 
-First, run the development server:
+AgriDex bridges the gap between Jamaica’s farmers and consumers — fostering trust, fair trade, and stronger relationships through transparent data and direct connection. The platform aims to promote the local economy by providing better access to agricultural markets while improving food security.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project is proudly submitted as part of the **Intellibus AI Hackathon**. 🚀
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📌 Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Direct Connection**: Enables farmers and consumers to connect directly without intermediaries.  
+- **Transparent Listings**: View detailed listings, including prices, descriptions, and units (e.g., per kg).  
+- **Bidding System**: Consumers can place offers, and farmers can respond with counter-offers.  
+- **User Profiles**: Farmers and consumers can manage profiles, contact info, and listings.  
+- **Chat Functionality**: Real-time chat between farmers and consumers to negotiate or ask questions.  
+- **Search & Filters**: Quickly find products by type, price, or category.  
+- **Responsive Design**: Mobile-friendly and accessible interface.  
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend**:  
+  - Next.js (React framework)  
+  - Tailwind CSS for styling  
+  - React Suspense for async component loading  
+  - Image optimization with Next.js `Image` component  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Backend / Database**:  
+  - Supabase (PostgreSQL + Auth + Storage)  
+  - Real-time data updates and session management  
 
-## Deploy on Vercel
+- **Utilities & Libraries**:  
+  - `react-toastify` for notifications  
+  - `next/navigation` for routing  
+  - Custom helpers for chat and bidding system  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📂 Project Structure
+
+- `/app` – Contains pages and main UI components  
+- `/lib` – Database and helper functions  
+- `/static_data` – Icons and placeholder images  
+- `/components` – Reusable components like Navbar, Footer, and modals  
+
+---
