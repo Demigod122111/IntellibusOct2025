@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { supabase } from "@/lib/database";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import requestIcon from "../static_data/images/request.png";
 import { toast } from "react-toastify";
 
-export default function ProfilePage() {
+function ProfileClient() {
     const router = useRouter();
     const params = useSearchParams();
     const profileId = params.get("id"); // visiting /profile?id=<uuid>
@@ -307,5 +307,13 @@ export default function ProfilePage() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function ProfilePage() {
+    return (
+        <Suspense fallback={<p className="text-center mt-10">Loading profile...</p>}>
+            <ProfileClient />
+        </Suspense>
     );
 }

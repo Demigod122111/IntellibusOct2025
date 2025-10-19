@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { redirect, useSearchParams } from "next/navigation";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
@@ -10,7 +10,7 @@ import Image from "next/image";
 import requestIcon from "../../static_data/images/request.png";
 import { toast } from "react-toastify";
 
-export default function ViewPage() {
+function ViewClient() {
     const searchParams = useSearchParams();
     const id = searchParams.get("id");
 
@@ -394,5 +394,13 @@ export default function ViewPage() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function ViewPage() {
+    return (
+        <Suspense fallback={<p className="text-center mt-10">Loading view...</p>}>
+            <ViewClient />
+        </Suspense>
     );
 }
