@@ -9,6 +9,7 @@ import Image from "next/image";
 
 import requestIcon from "../../static_data/images/request.png";
 import { toast } from "react-toastify";
+import { getOrCreateConversation } from "@/lib/helpers";
 
 function ViewClient() {
     const searchParams = useSearchParams();
@@ -237,6 +238,20 @@ function ViewClient() {
                                                             View Profile
                                                         </a>
                                                     )}
+
+                                                    {/* Chat with Bidder Button */}
+                                                    {currentUser.id && bid.user_id && (
+                                                        <button
+                                                            className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md font-medium transition"
+                                                            onClick={async () => {
+                                                                const convoId = await getOrCreateConversation(currentUser.id, bid.user_id);
+                                                                if (convoId) redirect(`/chat?conversation_id=${convoId}`);
+                                                                else toast.error("Failed to open chat.");
+                                                            }}
+                                                        >
+                                                            Chat
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </li>
                                         ))}
@@ -275,15 +290,34 @@ function ViewClient() {
                         <div className="flex flex-col gap-4">
                             <h1 className="text-2xl font-bold text-green-800">{listing.title}</h1>
 
-                            {/* View Owner Profile */}
-                            {listing.user_id && (
-                                <a
-                                    href={`/profile?id=${listing.user_id}`}
-                                    className="self-start bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg font-medium transition"
-                                >
-                                    View Owner Profile
-                                </a>
-                            )}
+                            {/* Owner Actions */}
+                            <div className="flex flex-wrap items-center gap-2 mt-2">
+                                {/* View Owner Profile */}
+                                {listing.user_id && (
+                                    <a
+                                        href={`/profile?id=${listing.user_id}`}
+                                        className="bg-green-700 hover:bg-green-800 text-white text-sm px-3 py-1.5 rounded-md font-medium transition whitespace-nowrap"
+                                    >
+                                        View Owner
+                                    </a>
+                                )}
+
+                                {/* Chat with Owner Button */}
+                                {currentUser.id !== listing.user_id && (
+                                    <button
+                                        className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1.5 rounded-md font-medium transition whitespace-nowrap"
+                                        onClick={async () => {
+                                            const convoId = await getOrCreateConversation(currentUser.id, listing.user_id);
+                                            if (convoId) redirect(`/chat?conversation_id=${convoId}`);
+                                            else toast.error("Failed to open chat.");
+                                        }}
+                                    >
+                                        Chat
+                                    </button>
+                                )}
+                            </div>
+
+
 
                             <span
                                 className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${listing.type === "farmer"
@@ -330,7 +364,7 @@ function ViewClient() {
                                                 className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition"
                                                 onClick={() => submitBid(listing.price, "accept")}
                                             >
-                                                {listing.type === "farmer" ? "Buy Now" : "Accept Offer"}
+                                                Accept Offer
                                             </button>
                                             <button
                                                 className="px-4 py-2 bg-yellow-400 text-white rounded-lg hover:bg-yellow-500 transition"

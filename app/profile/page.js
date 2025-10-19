@@ -5,9 +5,10 @@ import { supabase } from "@/lib/database";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import requestIcon from "../static_data/images/request.png";
 import { toast } from "react-toastify";
+import { getOrCreateConversation } from "@/lib/helpers";
 
 function ProfileClient() {
     const router = useRouter();
@@ -18,6 +19,7 @@ function ProfileClient() {
     const [biddedListings, setBiddedListings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isOwner, setIsOwner] = useState(false);
+    const [email, setEmail] = useState(null);
 
     // Editable fields
     const [avatar, setAvatar] = useState("");
@@ -57,6 +59,7 @@ function ProfileClient() {
             setAvatar(userData.avatar_base64 || "");
             setFullName(userData.display_name || "");
             setContact(userData.contact || "");
+            setEmail(userData.email);
 
             // Fetch user's own listings
             const { data: listingData, error: listingError } = await supabase
@@ -111,7 +114,7 @@ function ProfileClient() {
 
             const { error: userError } = await supabase
                 .from("users")
-                .update({ avatar_base64: avatar, contact })
+                .update({ avatar_base64: avatar, contact, display_name: fullName })
                 .eq("user_id", currentUser.id);
 
             if (userError) throw userError;
@@ -129,6 +132,32 @@ function ProfileClient() {
             toast.error("Failed to update profile.");
         }
     };
+
+    const handleChat = async () => {
+        try {
+            const {
+                data: { user: currentUser },
+            } = await supabase.auth.getUser();
+
+            if (!currentUser) return;
+
+            const targetUserId = profileId || currentUser.id;
+
+            if (targetUserId === currentUser.id) return; // don't chat with yourself
+
+            // Use helper to get or create conversation
+            const conversationId = await getOrCreateConversation(currentUser.id, targetUserId);
+            if (!conversationId) throw new Error("Failed to start conversation");
+
+            // Redirect to chat page
+            toast.success("Chat Connection Established");
+            router.push(`/chat?conversation_id=${conversationId}`);
+        } catch (err) {
+            console.error(err);
+            toast.error("Could not start chat.");
+        }
+    };
+
 
     if (loading) {
         return (
@@ -164,7 +193,7 @@ function ProfileClient() {
                                 />
                             ) : (
                                 <div className="w-[120px] h-[120px] bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-2xl">
-                                    {fullName?.charAt(0) || "U"}
+                                    {fullName?.charAt(0) || email?.charAt(0) || "U"}
                                 </div>
                             )}
                             {isOwner && (
@@ -187,6 +216,16 @@ function ProfileClient() {
                             <p className="text-gray-600">{user.email}</p>
                             <p className="text-gray-600">{contact}</p>
                         </div>
+
+                        {!isOwner && (
+                            <button
+                                onClick={handleChat}
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold mt-2"
+                            >
+                                Chat
+                            </button>
+                        )}
+
                     </div>
 
                     {/* Editable Section */}

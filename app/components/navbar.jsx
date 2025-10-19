@@ -51,20 +51,31 @@ export default function Navbar({ redirectAuth = true }) {
     }, []);
 
     const getCta = () => {
-        switch (pathname) {
-            case "/catalog":
-                return <></>;
-            default:
-                return <Link
-                    href="/catalog"
-                    className={`ml-4 px-5 py-2 rounded-lg font-semibold transition-colors ${scrolled
-                        ? "bg-green-600 text-white hover:bg-green-700"
-                        : "bg-white text-green-700 hover:bg-gray-100"
-                        }`}
-                >
-                    Catalog
-                </Link>;
-        }
+        return <div>{pathname != "/catalog" && <Link
+            href="/catalog"
+            className={`ml-4 px-5 py-2 rounded-lg font-semibold transition-colors ${scrolled
+                ? "bg-green-600 text-white hover:bg-green-700"
+                : "bg-white text-green-700 hover:bg-gray-100"
+                }`}
+        >
+            Catalog
+        </Link>}<Link
+            href="/chat"
+            className={`${pathname != "/catalog" ? "ml-2" : "ml-4"} px-5 py-2 rounded-lg font-semibold transition-colors ${scrolled
+                ? "bg-green-600 text-white hover:bg-green-700"
+                : "bg-white text-green-700 hover:bg-gray-100"
+                }`}
+        >
+                Chat
+            </Link><Link
+                href="/profile"
+                className={`ml-2 px-5 py-2 rounded-lg font-semibold transition-colors ${scrolled
+                    ? "bg-green-600 text-white hover:bg-green-700"
+                    : "bg-white text-green-700 hover:bg-gray-100"
+                    }`}
+            >
+                Profile
+            </Link></div>;
     }
 
     return (
