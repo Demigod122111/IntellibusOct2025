@@ -18,7 +18,7 @@ export default function Navbar({ redirectAuth = true }) {
         async function run() {
             const user = await getCurrentUser();
 
-            if (redirectAuth && !user && pathname != "/" && pathname !== "/auth") {
+            if (redirectAuth && (!user && pathname != "/" && pathname !== "/auth")) {
                 redirect("/auth");
             }
 
@@ -31,7 +31,7 @@ export default function Navbar({ redirectAuth = true }) {
         // Subscribe to auth state changes
         const { data: listener } = supabase.auth.onAuthStateChange(
             (event, session) => {
-                if (!session || !session.user) {
+                if (redirectAuth && pathname != "/" && (!session || !session.user)) {
                     // User logged out or session expired
                     redirect("/auth");
                 }
