@@ -103,7 +103,7 @@ function ProfileClient() {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
             toast.success("Logged out successfully!");
-            redirect("/auth"); // redirect to login page
+            router.push("/auth");
         } catch (err) {
             console.error("Error logging out:", err);
             toast.error("Failed to log out.");
