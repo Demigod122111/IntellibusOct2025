@@ -93,19 +93,20 @@ export default function ChatPanel({ conversationId, currentUser }) {
     }, [messages]);
 
     const sendMessage = async () => {
-        if (!newMessage.trim()) return;
+        const msg = newMessage?.trim();
+        setNewMessage("");
+        if (!msg) return;
 
         const { error } = await supabase.from("messages").insert([
             {
                 conversation_id: conversationId,
                 sender_id: currentUser.id,
-                content: newMessage,
+                content: msg,
                 type: "text",
             },
         ]);
 
         if (error) console.error(error);
-        setNewMessage("");
     };
 
     return (
