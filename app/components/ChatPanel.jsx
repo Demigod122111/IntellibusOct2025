@@ -76,7 +76,6 @@ export default function ChatPanel({ conversationId, currentUser }) {
                 },
                 (payload) => {
                     setMessages((prev) => [...prev, payload.new]);
-                    fetchUsers(messages);
                 }
             )
             .subscribe();
@@ -89,6 +88,8 @@ export default function ChatPanel({ conversationId, currentUser }) {
         if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
         }
+
+        fetchUsers(messages);
     }, [messages]);
 
     const sendMessage = async () => {
