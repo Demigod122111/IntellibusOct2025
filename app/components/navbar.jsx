@@ -90,8 +90,8 @@ export default function Navbar({ redirectAuth = true }) {
                 <Link href="/">
                     <Image
                         src={logo}
-                        width={64}
-                        height={64}
+                        width={80}
+                        height={80}
                         alt="Logo"
                     />
                 </Link>
