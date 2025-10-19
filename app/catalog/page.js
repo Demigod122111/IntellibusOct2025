@@ -42,7 +42,10 @@ function CatalogClient() {
     const fetchListings = async () => {
         setLoading(true);
         try {
-            const { data, error } = await supabase.from("listings").select("*");
+            const { data, error } = await supabase
+                .from("listings")
+                .select("*, owner:users(display_name)");
+
             if (error) throw error;
             setListings(data);
         } catch (err) {
@@ -180,10 +183,15 @@ function CatalogClient() {
                                 </h3>
 
                                 {/* Price / Budget */}
-                                <p className="text-gray-700 font-medium">
+                                <p className="text-gray-700 font-semibold">
                                     {listing.type === "farmer"
                                         ? `JMD ${listing.price} (${listing.unit})`
                                         : `Offer: JMD ${listing.price} (${listing.unit})`}
+                                </p>
+
+                                {/* Owner */}
+                                <p className="text-gray-700 font-medium">
+                                    {listing?.owner?.display_name}
                                 </p>
 
                                 {/* Badge */}
