@@ -31,8 +31,8 @@ export default function Footer() {
                     <h3 className="text-lg font-semibold text-white mb-3">Resources</h3>
                     <ul className="space-y-2">
                         <li><Link href="https://chatgpt.com" className="hover:text-green-400 transition">Help Center</Link></li>
-                        <li><Link href="#" className="hover:text-green-400 transition">Privacy Policy</Link></li>
-                        <li><Link href="#" className="hover:text-green-400 transition">Terms of Service</Link></li>
+                        <li><Link href="/data#privacy-policy" className="hover:text-green-400 transition">Privacy Policy</Link></li>
+                        <li><Link href="/data#terms-of-service" className="hover:text-green-400 transition">Terms of Service</Link></li>
                         <li><Link href="https://google.com" className="hover:text-green-400 transition">Support</Link></li>
                     </ul>
                 </div>

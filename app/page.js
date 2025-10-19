@@ -9,6 +9,7 @@ import Link from "next/link";
 import heroImage from "./static_data/images/happy-farming-with-sustainable-small-business-agriculture-portrait-smiling-farmer-africa_875825-185433.png"
 import logo from "./static_data/images/logo.png"
 import { redirect } from "next/navigation";
+import AgriNewsList from "./components/AgriNewsList";
 
 export default function Home() {
   return (
@@ -123,10 +124,20 @@ export default function Home() {
                 <Globe2 className="w-10 h-10 text-green-700 mb-4" />
                 <h3 className="text-xl font-semibold text-green-800 mb-2">Community Marketplace</h3>
                 <p className="text-gray-700">
-                  AgriDex isn’t just an app — it’s a growing network of farmers, buyers, and advocates working together to make agriculture more sustainable and accessible.
+                  {Properties.AppName} isn’t just an app — it’s a growing network of farmers, buyers, and advocates working together to make agriculture more sustainable and accessible.
                 </p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section
+          id="news"
+          className="bg-green-50 py-16 px-6 text-center"
+        >
+          <div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-green-800 mb-4">Latest Jamaican Agriculture News</h2>
+            <AgriNewsList limit={5} />
           </div>
         </section>
 
@@ -136,7 +147,7 @@ export default function Home() {
         >
           <div className="max-w-3xl mx-auto">
             {/* Header */}
-            <h2 className="text-4xl md:text-5xl font-extrabold text-green-800 mb-4">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-green-800 mb-4">
               Our Pricing Plans
             </h2>
             <p className="text-base md:text-lg text-gray-700 mb-12">
@@ -146,7 +157,7 @@ export default function Home() {
             {/* Card */}
             <div className="relative bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
               {/* Banner */}
-              <div className="bg-green-700 text-white py-4 px-6 text-2xl md:text-3xl font-bold">
+              <div className="bg-green-700 text-white py-4 px-6 text-1xl md:text-2xl font-bold">
                 🌾 Basic Plan – Pro Plan – Enterprise Plan
               </div>
 
