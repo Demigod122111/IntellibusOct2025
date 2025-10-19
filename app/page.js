@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import heroImage from "./static_data/images/happy-farming-with-sustainable-small-business-agriculture-portrait-smiling-farmer-africa_875825-185433.png"
+import logo from "./static_data/images/logo.png"
 
 export default function Home() {
   return (
@@ -30,12 +31,20 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-white/75 via-white/15 to-green-20" />
 
           {/* Content */}
-          <div className="relative z-10 text-center px-6 max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-green-900 drop-shadow-sm">
-              {Properties.AppName}
-            </h1>
+          <div className="relative z-10 flex flex-col items-center px-6 max-w-3xl mx-auto">
+            {/* Logo */}
+            <div className="mb-6">
+              <Image
+                src={logo}
+                width={256}
+                height={256}
+                alt="Logo"
+                className="mx-auto"
+              />
+            </div>
 
-            <div className="relative z-10 w-full my-5 bg-black/20 rounded-2xl py-10 px-6 text-center shadow-lg">
+            {/* Description Box */}
+            <div className="relative w-full bg-black/20 rounded-2xl py-10 px-6 text-center shadow-lg">
               <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
                 {Properties.AppDescription}
               </p>
@@ -43,10 +52,10 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                href="#get-started"
+                href="/catalog"
                 className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-lg text-lg font-semibold transition"
               >
-                Get Started
+                Engage
               </Link>
               <Link
                 href="#features"

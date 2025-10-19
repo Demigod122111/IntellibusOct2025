@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { signUp, signIn } from "@/lib/database";
+import { signUp, signIn, supabase } from "@/lib/database";
 import { isStrongPassword } from "@/lib/helpers";
 import { redirect } from "next/navigation";
 
@@ -34,13 +34,35 @@ export default function AuthPage() {
 
         if (isLogin) {
             const { data, error } = await signIn(email, password);
-            if (error) setError(error.message);
-            else setMessage("Logged in successfully!\nRedirecting...");
-            redirect("/dashboard");
+            if (error) {
+                setError(error.message);
+            }
+            else {
+                setMessage("Logged in successfully!\nRedirecting...");
+                redirect("/catalog");
+            }
         } else {
             const { data, error } = await signUp(email, password, fullName);
-            if (error) setError(error.message);
-            else setMessage("Check your email to confirm registration!");
+
+            if (error) {
+                setError(error.message);
+            }
+
+            // Insert into users table after signup
+            const { error: syncError } = await supabase.from("users").insert([
+                {
+                    user_id: data.user.id,
+                    email: email,
+                },
+            ]);
+
+            if (syncError) {
+                console.error("Error inserting user record:", syncError);
+                setError("Registration Failed!\nPlease try again or contact support.");
+            } else {
+                setMessage("Check your email to confirm registration!");
+                setIsLogin(true);
+            }
         }
     };
 
