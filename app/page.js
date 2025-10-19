@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import heroImage from "./static_data/images/happy-farming-with-sustainable-small-business-agriculture-portrait-smiling-farmer-africa_875825-185433.png"
 import logo from "./static_data/images/logo.png"
+import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
@@ -162,7 +163,8 @@ export default function Home() {
                   between farmers and buyers, ensuring everyone gets a fair deal.
                 </p>
 
-                <button className="mt-8 bg-green-700 text-white px-6 py-2.5 rounded-lg text-base md:text-lg font-semibold hover:bg-green-800 transition">
+                <button className="mt-8 bg-green-700 text-white px-6 py-2.5 rounded-lg text-base md:text-lg font-semibold hover:bg-green-800 transition"
+                  onClick={() => redirect("/catalog")}>
                   Start Negotiating
                 </button>
               </div>
