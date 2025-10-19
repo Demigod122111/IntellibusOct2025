@@ -13,7 +13,7 @@ import { getOrCreateConversation } from "@/lib/helpers";
 function ProfileClient() {
     const router = useRouter();
     const params = useSearchParams();
-    const profileId = params.get("id"); // visiting /profile?id=<uuid>
+    const profileId = params.get("id");
     const [user, setUser] = useState(null);
     const [listings, setListings] = useState([]);
     const [biddedListings, setBiddedListings] = useState([]);
@@ -97,6 +97,19 @@ function ProfileClient() {
             setLoading(false);
         }
     };
+
+    const handleLogout = async () => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+            toast.success("Logged out successfully!");
+            redirect("/auth"); // redirect to login page
+        } catch (err) {
+            console.error("Error logging out:", err);
+            toast.error("Failed to log out.");
+        }
+    };
+
 
     const handleAvatarUpload = (e) => {
         const file = e.target.files[0];
@@ -252,12 +265,22 @@ function ProfileClient() {
                                 placeholder="Phone Number: +1 (876) 888-8888"
                                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-600 outline-none"
                             />
-                            <button
-                                onClick={handleSave}
-                                className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg font-semibold"
-                            >
-                                Save Changes
-                            </button>
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={handleSave}
+                                    className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg font-semibold flex-1"
+                                >
+                                    Save Changes
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold flex-1"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+
+
                         </div>
                     )}
 
